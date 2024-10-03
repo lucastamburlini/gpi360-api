@@ -3,12 +3,12 @@ import express from "express";
 import morgan from "morgan";
 import cors from "cors";
 import cookieParser from "cookie-parser";
+import mainRouter from "./routes";
 import loginRouter from "./routes/login";
 import { NODE_ENV, PORT } from "./config";
 import { authenticateToken } from "./utils/authenticateToken";
 import { greenText, syncDatabase } from "./db";
 import seedDatabase from "./utils/seedDatabase";
-import mainRouter from "./routes";
 
 const app = express();
 
