@@ -1,11 +1,19 @@
 "use strict";
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.SubCategory = exports.Category = exports.Stock = exports.Company = exports.CashRegister = exports.Supplier = exports.Operation = exports.Purchase = exports.Offer = exports.Customer = exports.Branch = exports.User = exports.Product = exports.sequelize = exports.syncDatabase = exports.greenText = exports.blueText = void 0;
 const sequelize_1 = require("sequelize");
-const pg_1 = __importDefault(require("pg"));
 const product_1 = __importDefault(require("./models/product"));
 const user_1 = __importDefault(require("./models/user"));
 const branch_1 = __importDefault(require("./models/branch"));
@@ -23,27 +31,18 @@ const config_1 = require("./config");
 /* ----- Utils ----- */
 exports.blueText = "\x1b[34m%s\x1b[0m";
 exports.greenText = "\x1b[32m%s\x1b[0m";
-if (config_1.NODE_ENV === "production" && !config_1.DB_URL) {
-    throw new Error("DB_URL must be defined in production environment");
+if (!config_1.DB_URL) {
+    throw new Error("DB_URL must be defined");
 }
-if (config_1.NODE_ENV === "development" && (!config_1.DB_USER || !config_1.DB_PASSWORD || !config_1.DB_HOST)) {
-    throw new Error("DB_USER, DB_PASSWORD, and DB_HOST must be defined in development environment");
-}
-const sequelize = config_1.NODE_ENV === "production"
-    ? new sequelize_1.Sequelize(config_1.DB_URL, {
-        logging: false,
-        dialectModule: pg_1.default,
-        dialect: "postgres",
-    })
-    : new sequelize_1.Sequelize(`postgres://${config_1.DB_USER}:${config_1.DB_PASSWORD}@${config_1.DB_HOST}/gpi`, {
-        logging: false,
-        dialectModule: pg_1.default,
-        dialect: "postgres",
-    });
+const sequelize = new sequelize_1.Sequelize(config_1.DB_URL, {
+    logging: false,
+    dialect: "postgres",
+});
 exports.sequelize = sequelize;
-const syncDatabase = async () => {
+console.log(exports.greenText, `Connecting to database with URL: ${config_1.DB_URL}`);
+const syncDatabase = () => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        await sequelize.sync({ force: false });
+        yield sequelize.sync({ force: false });
         console.log(exports.blueText, "Database synced successfully.");
     }
     catch (error) {
@@ -54,7 +53,7 @@ const syncDatabase = async () => {
             console.error("Failed to sync database:", error);
         }
     }
-};
+});
 exports.syncDatabase = syncDatabase;
 /* ----- Models Initialization ----- */
 (0, product_1.default)(sequelize);
@@ -118,7 +117,13 @@ Category.hasMany(Product, { foreignKey: "categoryId", as: "category" });
 Product.belongsTo(Category, { foreignKey: "categoryId", as: "category" });
 Category.hasMany(SubCategory, { foreignKey: "categoryId" });
 SubCategory.belongsTo(Category, { foreignKey: "categoryId" });
-SubCategory.hasMany(Product, { foreignKey: "subCategoryId", as: "subCategory" });
-Product.belongsTo(SubCategory, { foreignKey: "subCategoryId", as: "subCategory" });
+SubCategory.hasMany(Product, {
+    foreignKey: "subCategoryId",
+    as: "subCategory",
+});
+Product.belongsTo(SubCategory, {
+    foreignKey: "subCategoryId",
+    as: "subCategory",
+});
 Company.hasMany(Category, { foreignKey: "companyId" });
 Category.belongsTo(Company, { foreignKey: "companyId" });
