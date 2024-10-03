@@ -2,11 +2,10 @@
   "name": "api",
   "version": "1.0.0",
   "description": "",
-  "type": "module",
-  "main": "dist/index.js",
+  "main": "index.js",
+  "type": "commonjs",
   "scripts": {
-    "start": "ts-node src/index.ts",
-    "build": "tsc"
+    "start": "ts-node src/index.ts"
   },
   "author": "",
   "license": "ISC",
