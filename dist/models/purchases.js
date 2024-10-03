@@ -2,6 +2,14 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const sequelize_1 = require("sequelize");
 class Purchase extends sequelize_1.Model {
+    id;
+    supplierId;
+    products;
+    amount;
+    comments;
+    barcode;
+    createdAt;
+    updatedAt;
 }
 exports.default = (sequelize) => {
     Purchase.init({

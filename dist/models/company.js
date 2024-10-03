@@ -2,6 +2,20 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const sequelize_1 = require("sequelize");
 class Company extends sequelize_1.Model {
+    id;
+    name;
+    address;
+    country;
+    phoneNumbers;
+    isActive;
+    cuit;
+    razonSocial;
+    domicilioFiscal;
+    inicioActividad;
+    regimenTributario;
+    iibb;
+    createdAt;
+    updatedAt;
 }
 exports.default = (sequelize) => {
     Company.init({

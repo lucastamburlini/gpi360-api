@@ -1,36 +1,19 @@
 "use strict";
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 const issueInvoice_1 = require("./afipServices/issueInvoice");
 const generateTicket_1 = require("./afipServices/generateTicket");
 class AfipServices {
-    generateTicket(_a) {
-        return __awaiter(this, arguments, void 0, function* ({ req }) {
-            return yield (0, generateTicket_1.generateTicket)({ req });
-        });
+    async generateTicket({ req }) {
+        return await (0, generateTicket_1.generateTicket)({ req });
     }
-    issueInvoice(_a) {
-        return __awaiter(this, arguments, void 0, function* ({ req }) {
-            return yield (0, issueInvoice_1.issueInvoice)({ req });
-        });
+    async issueInvoice({ req }) {
+        return await (0, issueInvoice_1.issueInvoice)({ req });
     }
-    electronicCreditInvoices() {
-        return __awaiter(this, void 0, void 0, function* () {
-            return console.log("electronicCreditInvoice");
-        });
+    async electronicCreditInvoices() {
+        return console.log("electronicCreditInvoice");
     }
-    creditNote() {
-        return __awaiter(this, void 0, void 0, function* () {
-            return console.log("creditNote");
-        });
+    async creditNote() {
+        return console.log("creditNote");
     }
 }
 exports.default = new AfipServices();
