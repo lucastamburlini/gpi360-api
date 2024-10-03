@@ -2,13 +2,13 @@ import "dotenv/config";
 import express from "express";
 import morgan from "morgan";
 import cors from "cors";
-import mainRouter from "./routes";
-import { greenText, syncDatabase } from "./db";
-import loginRouter from "./routes/login";
-import { authenticateToken } from "./utils/authenticateToken";
 import cookieParser from "cookie-parser";
-import { PORT, NODE_ENV } from "./config";
-import seedDatabase from "./utils/seedDatabase";
+import loginRouter from "./src/routes/login";
+import { NODE_ENV, PORT } from "./src/config";
+import { authenticateToken } from "./src/utils/authenticateToken";
+import { greenText, syncDatabase } from "./src/db";
+import seedDatabase from "./src/utils/seedDatabase";
+import mainRouter from "./src/routes";
 
 const app = express();
 
@@ -43,7 +43,7 @@ app.use(
 
 syncDatabase()
   .then(async () => {
-    await seedDatabase(); 
+    await seedDatabase();
     app.listen(PORT || 3000, () =>
       console.log(greenText, `Server running on port ${PORT}`)
     );
