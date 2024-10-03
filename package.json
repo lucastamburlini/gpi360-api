@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "nodemon ./src/app.ts",
     "start": "node dist/app.js",
-    "build": "tsc --pretty"
+    "build": "tsc --outDir dist"
   },
   "author": "",
   "license": "ISC",
